@@ -3,6 +3,7 @@ extendscript-bundlr
 
 A tool for bundling Adobe ExtendScripts that use the `//@include 'path/to/file'` statement.
 
+Still work in progress. Come back later. 
 ### Todo
 
 - Also parse `#include 'path/tp/file'`
