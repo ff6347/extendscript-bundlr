@@ -1,0 +1,10 @@
+# MAC OSX
+.DS_Store
+# WIN
+Thumbs.db
+# nodejs and web dev
+node_modules
+# possible output files
+out.jsx
+bundle.jsx
+exsbundlr.default.bundle.jsx
