@@ -1,0 +1,19 @@
+# MAC OSX
+.DS_Store
+# WIN
+Thumbs.db
+# nodejs and web dev
+node_modules
+
+# sublime
+*.sublime-project
+*.sublime-workspace
+
+
+# for GitHub
+dist/
+# possible output files
+out.jsx
+bundle.jsx
+exsbundlr.default.bundle.jsx
+

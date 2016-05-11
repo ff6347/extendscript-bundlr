@@ -1,0 +1,1 @@
+﻿// @include 'includes/something.js';// @include './include.js';//@include "./includes/more.js";//@include'includes/even-more.js'$.writeln('\n-------\ntesting includes');foo();test();more();evenmore();
