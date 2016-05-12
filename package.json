@@ -4,15 +4,15 @@
   "description": "a tool for bundling Adobe ExtendScripts that use the `#include 'path/to/file'` statement",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-bundlr": "node ./dist/index.js -i test/src/main.jsx -o out.jsx -r",
     "watch": "./node_modules/.bin/babel src -w -d dist/"
   },
-  "keywords": [
-    "Adobe",
-    "ExtendScript",
-    "automation"
-  ],
-  "author": "Fabian 'fabiantheblind' Morón Zirfas <fabian.moron.zirfas@gmail.com> (http://fabianmoronzirfas.me)",
+  "keywords": ["Adobe", "ExtendScript", "automation"],
+  "contributors": [{
+    "name": "Fabian 'fabiantheblind' Morón Zirfas",
+    "email": "fabian.moron.zirfas@gmail.com",
+    "url": "http://fabianmoronzirfas.me"
+  }],
   "license": "ISC",
   "bin": {
     "exsbundlr": "./dist/index.js"
@@ -27,5 +27,12 @@
     "file-exists": "^1.0.0",
     "line-reader": "^0.4.0",
     "verbal-expressions": "^0.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabiantheblind/extendscript-bundlr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fabiantheblind/extendscript-bundlr/issues"
   }
 }

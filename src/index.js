@@ -1,40 +1,52 @@
 #!/usr/bin/env node
 
+const lineReader = require('line-reader');
+const program = require('commander');
+const fileExists = require('file-exists');
 import pkg from './../package.json';
 import * as fs from 'fs';
 import * as readline from 'readline';
 import * as path from 'path';
-const lineReader = require('line-reader');
-let verex = require('verbal-expressions');
-const program = require('commander');
-const chalk = require('chalk');
-const fileExists = require('file-exists');
+import {
+  defaults
+} from './lib/defaults';
+import {
+  messages
+} from './lib/messages';
+import {
+  woohoo,
+  warn,
+  error,
+  say
+} from './lib/reporter';
+import {
+  testerAT
+} from './lib/expressions';
+import {
+  append
+} from './lib/writer';
+// const chalk = require('chalk');
 let sourcefile;
 let targetfile;
-let error = chalk.bold.red;
-let warn = chalk.bold.yellow;
-let woohoo = chalk.bold.green;
-let defaults = {
-  targetfile: 'exsbundlr.default.bundle.jsx'
-};
-let messages = {
-  nosource: 'No source file path provided!',
-  sourceDoesNotExist: function(p) {
-    return `The file at path "${p}" does not exist`;
-  },
-  notarget: `No target file path provided. using default name: "${defaults.targetfile}"`
-};
-let source = (val) => {
+let usesdtout = false;
+let verbose = false;
+// let error = chalk.bold.red;
+// let warn = chalk.bold.yellow;
+// let woohoo = chalk.bold.green;
+let input = (val) => {
   // console.log(val);
   sourcefile = val;
 };
-let target = (val) => {
+let output = (val) => {
   // console.log(val);
   targetfile = val;
 };
 program.version(pkg.version)
-  .option('-s --source <source>', 'define the source file where the #includes happen', source)
-  .option('-t --target <target>', 'define the target file in which to bundle', target)
+  .option('-i --input <input>', 'define the source file where the #includes happen', input)
+  .option('-o --ouput <ouput>', 'define the target file in which to bundle', output)
+  .option('-s --stdout', 'should output to stdout')
+  .option('-r --report', `should output infos about the process to stdout.
+    Should be disabled when flag --stdout is given`)
   .parse(process.argv);
 if (!sourcefile) {
   console.log(error(messages.nosource));
@@ -48,6 +60,13 @@ if (!targetfile) {
   console.log(warn(messages.notarget));
   targetfile = defaults.targetfile;
 }
+if (program.report) {
+  verbose = true;
+}
+if (program.stdout) {
+  verbose = false;
+  usesdtout = true;
+}
 let count = 1;
 let targetfilepath = path.resolve(process.cwd(), targetfile);
 if (fileExists(targetfilepath)) {
@@ -55,60 +74,75 @@ if (fileExists(targetfilepath)) {
   fs.writeFileSync(targetfilepath, '');
 }
 lineReader.eachLine(sourcefile, function(line, last) {
-  let tester = verex()
-    .then('//')
-    .maybe(' ')
-    .then('@include')
-    .maybe(' ')
-    .then('\'')
-    .or('"')
-    .anything()
-    .then('\'')
-    .or('"')
-    .maybe(';')
-    .anything();
-  // .anything()
-  // .then('@inlcude')
-  // .anything()
-  // .endOfLine();
-  // console.log(tester);
-  if (tester.test(line)) {
-    // console.log(chalk.green(line));
-    let capture = tester.exec(line);
+  if (testerAT.test(line)) {
+    if (verbose) {
+      console.log(say(line));
+    }
+    let capture = testerAT.exec(line);
     let expression = new RegExp(/[\"'](.*?)[\"']/g);
     let match = expression.exec(line);
     if (match.length !== 0) {
-      // console.log(woohoo(match[0]));
-      // console.log(woohoo(__dirname));
-      // console.log(woohoo(process.cwd()));
+      if (verbose) {
+        console.log(woohoo(match[0]));
+      }
+      if (verbose) {
+        console.log(woohoo(__dirname));
+      }
+      if (verbose) {
+        console.log(woohoo(process.cwd()));
+      }
       let sourcefilepath = path.join(process.cwd(), sourcefile);
       let sourcefilefolder = path.dirname(sourcefilepath);
       var extractedpath = match[0].slice(1, -1);
       let resolvedpath = path.resolve(sourcefilefolder, extractedpath);
       if (fileExists(resolvedpath)) {
-        console.log(woohoo(`Found in line ${count}: @inlcude ${resolvedpath}`));
+        if (verbose) {
+          console.log(woohoo(`Found in line ${count}: @inlcude ${resolvedpath}`));
+        }
         var content = fs.readFileSync(resolvedpath, 'utf8');
-        fs.appendFile(targetfilepath, content + '\n', (err) => {
-          if (err) {
-            throw err;
-          } else {
-            // console.log('The "data to append" was appended to file!');
-          }
-        });
+        append(targetfilepath, content, 'Wrote content of file to bundle', 'woohoo', verbose);
+        // fs.appendFile(targetfilepath, content + '\n', (err) => {
+        //   if (err) {
+        //     throw err;
+        //   } else {
+        //     if (verbose) {
+        //       console.log(woohoo('Wrote content of file to bundle'));
+        //     }
+        //   }
+        // });
+      } else {
+        if (verbose) {
+          error(`File "${resolvedpath}" not found`);
+        }
+        append(
+          targetfilepath,
+          `${line} // FILE NOT FOUND by ${pkg.name}`,
+          'Wrote line with @include back to bundle with ERROR mark',
+          'warn',
+          verbose);
+        // fs.appendFile(targetfilepath, `${line} // FILE NOT FOUND by ${pkg.name} \n`, (err) => {
+        //   if (err) {
+        //     throw err;
+        //   } else {
+        //     if (verbose) {
+        //       console.log(warn('Wrote line with @include back to bundle with ERROR mark'));
+        //     }
+        //   }
+        // });
       }
     }
   } else {
-    fs.appendFile(targetfilepath, line + '\n', (err) => {
-      if (err) {
-        throw err;
-      } else {
-        // console.log('The "data to append" was appended to file!');
-      }
-    });
+    append(targetfilepath, line, 'Wrote line to bundle', 'woohoo', verbose);
+    // fs.appendFile(targetfilepath, line + '\n', (err) => {
+    //   if (err) {
+    //     throw err;
+    //   } else {
+    //     if (verbose) {
+    //       console.log(woohoo('Wrote line to bundle'));
+    //     }
+    //   }
+    // });
     // console.log(line);
   }
   count++;
-  // if (count === 1) {
-  //   return false; // stop reading
-  // }
 });

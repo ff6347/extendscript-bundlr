@@ -3,9 +3,52 @@ extendscript-bundlr
 
 A tool for bundling Adobe ExtendScripts that use the `//@include 'path/to/file'` statement.
 
+### Prerequisites
+
+- Node.js
+- 
+
+### Limitations
+
+This tool currently only parses one file. There is no recursive parsing. You could reparse the bundled file though.  
+
+### Install
+
+global:  
+
+    npm install extendsript-bundlr -g
+
+local (not yet tested):  
+
+    npm install extendsript-bundlr --save-dev  
+
+
+### Usage
+
+global:  
+
+    exsbundlr --source path/to/input.js --target path/to/output.js
+
+or
+
+    exsbundlr -s path/to/input.js -t path/to/output.js
+
+local:  
+
+    ./node_modules/.bin/exsbundlr --source path/to/input.js --target path/to/output.js
+
+You can omit the target
+
+    exsbundlr -s path/to/input.js
+
+This will output to a file called "exsbundlr.default.bundle.jsx"
+
+
+
+
 ### Todo
 
-- Also parse `#include 'path/tp/file'`
+- Also parse `#include 'path/to/file'`
 
 
 ## License
