@@ -3,6 +3,10 @@ extendscript-bundlr
 
 A tool for bundling Adobe ExtendScripts that use the `//@include 'path/to/file'` statement.
 
+
+Still a Work in Progress
+
+
 ### Prerequisites
 
 - Node.js
@@ -42,7 +46,6 @@ You can omit the target
     exsbundlr -s path/to/input.js
 
 This will output to a file called "exsbundlr.default.bundle.jsx"
-
 
 
 
