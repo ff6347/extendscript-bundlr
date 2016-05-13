@@ -1,9 +1,9 @@
 extendscript-bundlr
 ===================
 
-A tool for bundling Adobe ExtendScripts that use the `//@include 'path/to/file'` statement.
+A tool for bundling Adobe ExtendScripts that use the `//@include 'path/to/file'` or `#include 'path/to/file'` statement.
 
-Still a Work in Progress
+Still a Work in Progress.  
 
 
 ### Dependencies
