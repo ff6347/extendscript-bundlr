@@ -11,3 +11,15 @@ export let testerAT = verex()
   .or('"')
   .maybe(';')
   .anything();
+
+export let testerHASH = verex()
+  .then('#')
+  .then('include')
+  .maybe(' ')
+  .then('\'')
+  .or('"')
+  .anything()
+  .then('\'')
+  .or('"')
+  .maybe(';')
+  .anything();

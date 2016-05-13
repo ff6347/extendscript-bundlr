@@ -49,8 +49,12 @@ This will output to a file called "exsbundlr.default.bundle.jsx"
 
 ### Todo
 
-- Also parse `#include 'path/to/file'`
-- Also parse `#includepath`
+- [x] Also parse `#include 'path/to/file'`
+- [ ] Also parse `#includepath`
+- [ ] Also parse `@include path/to/file` (without quotes works. grrrr)
+- [ ] Also parse `#include path/to/file` (without quotes works. grrrr)
+- [ ] Add watch function
+- [ ] report comes async out file content seems sync. Test with large files.
 
 
 ## License
