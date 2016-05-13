@@ -49,6 +49,7 @@ This will output to a file called "exsbundlr.default.bundle.jsx"
 
 ### Todo
 
+- [x] parse `//@include 'path/to/file'`
 - [x] Also parse `#include 'path/to/file'`
 - [ ] Also parse `#includepath`
 - [ ] Also parse `@include path/to/file` (without quotes works. grrrr)
