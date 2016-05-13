@@ -99,17 +99,8 @@ lineReader.eachLine(sourcefile, function(line, last) {
         if (verbose) {
           console.log(woohoo(`Found in line ${count}: @inlcude ${resolvedpath}`));
         }
-        var content = fs.readFileSync(resolvedpath, 'utf8');
+        let content = fs.readFileSync(resolvedpath, 'utf8');
         append(targetfilepath, content, 'Wrote content of file to bundle', 'woohoo', verbose);
-        // fs.appendFile(targetfilepath, content + '\n', (err) => {
-        //   if (err) {
-        //     throw err;
-        //   } else {
-        //     if (verbose) {
-        //       console.log(woohoo('Wrote content of file to bundle'));
-        //     }
-        //   }
-        // });
       } else {
         if (verbose) {
           error(`File "${resolvedpath}" not found`);
@@ -118,31 +109,12 @@ lineReader.eachLine(sourcefile, function(line, last) {
           targetfilepath,
           `${line} // FILE NOT FOUND by ${pkg.name}`,
           'Wrote line with @include back to bundle with ERROR mark',
-          'warn',
+          'error',
           verbose);
-        // fs.appendFile(targetfilepath, `${line} // FILE NOT FOUND by ${pkg.name} \n`, (err) => {
-        //   if (err) {
-        //     throw err;
-        //   } else {
-        //     if (verbose) {
-        //       console.log(warn('Wrote line with @include back to bundle with ERROR mark'));
-        //     }
-        //   }
-        // });
       }
     }
   } else {
     append(targetfilepath, line, 'Wrote line to bundle', 'woohoo', verbose);
-    // fs.appendFile(targetfilepath, line + '\n', (err) => {
-    //   if (err) {
-    //     throw err;
-    //   } else {
-    //     if (verbose) {
-    //       console.log(woohoo('Wrote line to bundle'));
-    //     }
-    //   }
-    // });
-    // console.log(line);
   }
   count++;
 });
