@@ -18,11 +18,11 @@ This tool currently only parses one file. There is no recursive parsing. You cou
 
 global:  
 
-    npm install extendsript-bundlr -g
+    npm install extendscript-bundlr -g
 
 local (not yet tested):  
 
-    npm install extendsript-bundlr --save-dev  
+    npm install extendscript-bundlr --save-dev  
 
 
 ### Usage
