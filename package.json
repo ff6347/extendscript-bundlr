@@ -6,6 +6,7 @@
   "scripts": {
     "test-at": "node ./dist/index.js -i test/src/test.at.jsx -o out.jsx -r",
     "test-hash": "node ./dist/index.js -i test/src/test.hash.jsx -o out.jsx -r",
+    "test-includepath": "node ./dist/index.js -i test/src/test.includepath.at.jsx -o out.jsx -r",
     "watch": "./node_modules/.bin/babel src -w -d dist/"
   },
   "keywords": ["Adobe", "ExtendScript", "automation"],

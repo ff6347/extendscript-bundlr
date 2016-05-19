@@ -21,7 +21,9 @@ import {
 } from './lib/reporter';
 import {
   testerAT,
-  testerHASH
+  testerHASH,
+  testerIncludeAT
+
 } from './lib/expressions';
 import {
   append
@@ -83,6 +85,12 @@ if (fileExists(targetfilepath)) {
 }
 // read the sourcefile line by line
 lineReader.eachLine(sourcefile, function(line, last) {
+  let foundIncludepathAT = testerIncludeAT(line);
+  if(foundIncludepathAT === true) {
+    if(verbose === true) {
+      console.log(woohoo('Found @ includepath'));
+    }
+  }
   // test for AT includes
   let foundAT = testerAT.test(line);
   let foundHASH = testerHASH.test(line);
