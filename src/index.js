@@ -22,8 +22,8 @@ import {
 import {
   testerAT,
   testerHASH,
-  testerIncludeAT
-
+  testerIncludeAT,
+  testerIncludeHASH
 } from './lib/expressions';
 import {
   append
@@ -85,11 +85,15 @@ if (fileExists(targetfilepath)) {
 }
 // read the sourcefile line by line
 lineReader.eachLine(sourcefile, function(line, last) {
-  let foundIncludepathAT = testerIncludeAT(line);
-  if(foundIncludepathAT === true) {
-    if(verbose === true) {
-      console.log(woohoo('Found @ includepath'));
+  let foundIncludepathAT = testerIncludeAT.test(line);
+  let foundIncludepathHASH = testerIncludeHASH.test(line);
+  if (foundIncludepathAT === true || foundIncludepathHASH === true) {
+    if (verbose === true) {
+      console.log(woohoo(`Line: ${count} || Found @ includepath in line ${count}`));
+      console.log(say(line));
     }
+    console.log('found something returning');
+    return;
   }
   // test for AT includes
   let foundAT = testerAT.test(line);
@@ -97,38 +101,33 @@ lineReader.eachLine(sourcefile, function(line, last) {
   let mark = `${(foundAT === true ? '@' : '#')}`;
   if (foundAT === true || foundHASH === true) {
     if (verbose === true && foundAT === true) {
-      console.log(say('you are using "@"'));
-    } else if(verbose === true && foundHASH === true) {
-      console.log(warn('Me!. You are using "#", "@" is cooler'));
+      console.log(say(`Line: ${count} || you are using "@"`));
+      console.log(say(line));
+    } else if (verbose === true && foundHASH === true) {
+      console.log(warn(`Line: ${count} || Me!. You are using "#", "@" is cooler`));
     }
     let expression = new RegExp(/[\"'](.*?)[\"']/g); // regex for the path in the inlude
     let match = expression.exec(line); // get the matches
     if (match.length !== 0) {
-
       let sourcefilepath = path.join(process.cwd(), sourcefile);
       let sourcefilefolder = path.dirname(sourcefilepath);
       var extractedpath = match[0].slice(1, -1);
       let resolvedpath = path.resolve(sourcefilefolder, extractedpath);
       if (fileExists(resolvedpath)) {
         if (verbose) {
-          console.log(woohoo(`Found in line ${count}: ${mark}include ${resolvedpath}`));
+          console.log(woohoo(`Line: ${count} || ${mark}include ${resolvedpath}`));
         }
         let content = fs.readFileSync(resolvedpath, 'utf8');
-        append(targetfilepath, content, `Replaced line ${count} with content of file`, 'woohoo', verbose);
+        append(targetfilepath, content, `Line: ${count} || Replaced line ${count} with content of file`, 'woohoo', verbose);
       } else {
         if (verbose) {
           error(`File "${resolvedpath}" not found`);
         }
-        append(targetfilepath, `${line} // FILE NOT FOUND by ${pkg.name}`,
-          `wrote line with ${mark}include back to bundle with ERROR mark`
-          ,
-          'error', verbose);
+        append(targetfilepath, `${line} // FILE NOT FOUND by ${pkg.name}`, `Line: ${count} || wrote line with ${mark}include back to bundle with ERROR mark`, 'error', verbose);
       }
     } else {
       // testerAT found something but the regex could not find a path between "" or ''
-      append(targetfilepath, `${line} // NO PATH FOUND in this line by ${pkg.name}`,
-        'Wrote line with @include back to bundle with ERROR mark',
-        'error', verbose);
+      append(targetfilepath, `${line} // NO PATH FOUND in this line by ${pkg.name}`, `Line: ${count} || Wrote line with @include back to bundle with ERROR mark`, 'error', verbose);
     }
   } else {
     append(targetfilepath, line, null, 'woohoo', verbose);

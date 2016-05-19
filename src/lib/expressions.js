@@ -29,3 +29,8 @@ export let testerIncludeAT = verex()
   .maybe(' ')
   .then('@includepath')
   .anything();
+
+export let testerIncludeHASH = verex()
+  .then('#')
+  .then('includepath')
+  .anything();
