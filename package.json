@@ -1,6 +1,6 @@
 {
   "name": "extendscript-bundlr",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "a tool for bundling Adobe ExtendScripts that use the `#include 'path/to/file'` statement",
   "main": "dist/index.js",
   "scripts": {
