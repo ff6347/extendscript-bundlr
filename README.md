@@ -1,9 +1,9 @@
 extendscript-bundlr
 ===================
 
-A tool for bundling Adobe ExtendScripts that use the `//@include 'path/to/file'` or `#include 'path/to/file'` statement.
+A tool for bundling Adobe ExtendScripts that use the `//@include 'path/to/file'` or `#include 'path/to/file'` statement. 
 
-Still a Work in Progress.  
+Tested only on OSX 10.11 Windows test are very welcome. 
 
 
 ### Dependencies
@@ -29,19 +29,19 @@ local (not yet tested):
 
 global:  
 
-    exsbundlr --source path/to/input.js --target path/to/output.js
+    exsbundlr --input path/to/input.js --output path/to/output.js
 
 or
 
-    exsbundlr -s path/to/input.js -t path/to/output.js
+    exsbundlr -i path/to/input.js -o path/to/output.js
 
 local:  
 
-    ./node_modules/.bin/exsbundlr --source path/to/input.js --target path/to/output.js
+    ./node_modules/.bin/exsbundlr --input path/to/input.js --output path/to/output.js
 
 You can omit the target
 
-    exsbundlr -s path/to/input.js
+    exsbundlr -i path/to/input.js
 
 This will output to a file called "exsbundlr.default.bundle.jsx"
 
