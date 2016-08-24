@@ -55,6 +55,7 @@ This will output to a file called "exsbundlr.default.bundle.jsx"
 - [x] Also parse `@include path/to/file` (without quotes works. grrrr)
 - [x] Also parse `#include path/to/file` (without quotes works. grrrr)
 - [ ] Add watch function
+- [ ] recursive bundling
 
 
 
