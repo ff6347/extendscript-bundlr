@@ -16,16 +16,21 @@ This tool currently only parses one file. There is no recursive parsing. You cou
 
 ### Install
 
-global:  
-
-    npm install extendscript-bundlr -g
-
-local (not yet tested):  
+local:  
 
     npm install extendscript-bundlr --save-dev  
 
+global (not recommended):  
+
+    npm install extendscript-bundlr -g
+
+
 
 ### Usage
+
+local:  
+
+    ./node_modules/.bin/exsbundlr --input path/to/input.js --output path/to/output.js
 
 global:  
 
@@ -35,9 +40,6 @@ or
 
     exsbundlr -i path/to/input.js -o path/to/output.js
 
-local:  
-
-    ./node_modules/.bin/exsbundlr --input path/to/input.js --output path/to/output.js
 
 You can omit the target
 
@@ -45,7 +47,13 @@ You can omit the target
 
 This will output to a file called "exsbundlr.default.bundle.jsx"
 
+If you want to add a prefix to your script you can use the `--prefix` or `-p` option.
 
+    ./node_modules/.bin/exsbundlr --input path/to/input.js --output path/to/output.js --prefix 'my super dupr prefix'
+
+If you want to know what is going on use the `-r` or `--report` flag.  
+
+    ./node_modules/.bin/exsbundlr --input path/to/input.js --output path/to/output.js --prefix 'my super dupr prefix' -r  
 
 ### Todo
 

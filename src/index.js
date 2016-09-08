@@ -37,9 +37,8 @@ let pre = (val) => {
 program.version(pkg.version)
   .option('-i --input <input>', 'define the source file where the #includes happen', input)
   .option('-o --ouput <ouput>', 'define the target file in which to bundle', output)
-  .option('-s --stdout', 'should output to stdout')
-  .option('-r --report', `should output infos about the process to stdout.
-    Should be disabled when flag --stdout is given`)
+  // .option('-s --stdout', 'should output to stdout')
+  .option('-r --report', 'outputs infos about the process.')
   .option('-p --prefix <prefix>', 'add a prefix to your script', pre)
   .parse(process.argv);
 // check if the user provided a source file
@@ -64,10 +63,11 @@ if (program.report) {
   global.verbose = true;
 }
 // should it go to stdout?
-if (program.stdout) {
-  verbose = false;
-  usesdtout = true;
-}
+// if (program.stdout) {
+//   verbose = false;
+//   usesdtout = true;
+// }
+
 if(program.prefix) {
   // console.log(prefix);
 }
