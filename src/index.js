@@ -9,6 +9,7 @@ import {woohoo, warn, error, say} from './lib/reporter';
 import {defaults} from './lib/defaults';
 import {messages} from './lib/messages';
 import {walker} from './lib/line-walker';
+import {delimiter} from './lib/os-detect';
 
 let sourcefile; // will hold the source file path
 let targetfile; // will hold the target file path
@@ -17,6 +18,7 @@ let verbose = false; // write report
 global.verbose = false;
 let includePaths = [];
 let outputContent = null;
+let prefix = '';
 // handle input
 let input = (val) => {
   // console.log(val);
@@ -27,6 +29,10 @@ let output = (val) => {
   // console.log(val);
   targetfile = val;
 };
+
+let pre = (val) => {
+  prefix = val;
+};
 // commander programm
 program.version(pkg.version)
   .option('-i --input <input>', 'define the source file where the #includes happen', input)
@@ -34,6 +40,7 @@ program.version(pkg.version)
   .option('-s --stdout', 'should output to stdout')
   .option('-r --report', `should output infos about the process to stdout.
     Should be disabled when flag --stdout is given`)
+  .option('-p --prefix <prefix>', 'add a prefix to your script', pre)
   .parse(process.argv);
 // check if the user provided a source file
 // if not error end exit
@@ -61,12 +68,14 @@ if (program.stdout) {
   verbose = false;
   usesdtout = true;
 }
+if(program.prefix) {
+  // console.log(prefix);
+}
 if (fileExists(path.resolve(process.cwd(), targetfile))) {
   if(global.verbose) {
     console.log(warn(messages.targetexists));
   }
-  fs.writeFileSync(path.resolve(process.cwd(), targetfile), ''); // clear the file
 }
-
+fs.writeFileSync(path.resolve(process.cwd(), targetfile), `${prefix}${delimiter}`); // clear the file
 walker(sourcefile, path.resolve(process.cwd(), targetfile), verbose);
 
