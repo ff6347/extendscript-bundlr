@@ -28,6 +28,20 @@ global (not recommended):
 
 ### Usage
 
+```plain
+  Usage: exsbundlr [options]
+
+  Options:
+
+    -V, --version         output the version number
+    -i --input <input>    define the source file where the #includes happen
+    -o --ouput <ouput>    define the target file in which to bundle
+    -r --report           outputs report about the process
+    -m --missing          outputs report only for missing files
+    -p --prefix <prefix>  add a prefix to your script
+    -h, --help            output usage information
+```
+
 local:  
 
     ./node_modules/.bin/exsbundlr --input path/to/input.js --output path/to/output.js
