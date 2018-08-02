@@ -92,7 +92,7 @@ export function walker(sourcefile, targetfile) {
               output,
               `could not find ${p} in line ${lineCounter}`,
               'error');
-            if(global.missing) {
+            if (global.missing) {
               console.log(error(messages.sourceDoesNotExist(p)));
             }
           }// end of last i loop iteration

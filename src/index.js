@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const program = require('commander');
 const fileExists = require('file-exists');
-const chalk = require('chalk');
+// const chalk = require('chalk');
 import * as fs from 'fs';
 import * as path from 'path';
 import pkg from './../package.json';
@@ -13,11 +13,12 @@ import {delimiter} from './lib/os-detect';
 
 let sourcefile; // will hold the source file path
 let targetfile; // will hold the target file path
-let usesdtout = false; // should output go to stdout
+// let usesdtout = false; // should output go to stdout
 let verbose = false; // write report
 global.verbose = false;
-let includePaths = [];
-let outputContent = null;
+global.missing = false;
+// let includePaths = [];
+// let outputContent = null;
 let prefix = '';
 // handle input
 let input = (val) => {
@@ -38,7 +39,8 @@ program.version(pkg.version)
   .option('-i --input <input>', 'define the source file where the #includes happen', input)
   .option('-o --ouput <ouput>', 'define the target file in which to bundle', output)
   // .option('-s --stdout', 'should output to stdout')
-  .option('-r --report', 'outputs infos about the process.')
+  .option('-r --report', 'outputs report about the process')
+  .option('-m --missing', 'outputs report only for missing files')
   .option('-p --prefix <prefix>', 'add a prefix to your script', pre)
   .parse(process.argv);
 // check if the user provided a source file
@@ -62,17 +64,22 @@ if (program.report) {
   verbose = true;
   global.verbose = true;
 }
+// does the user want the report mssing files?
+if (program.missing) {
+  // verbose = true;
+  global.missing = true;
+}
 // should it go to stdout?
 // if (program.stdout) {
 //   verbose = false;
 //   usesdtout = true;
 // }
 
-if(program.prefix) {
+if (program.prefix) {
   // console.log(prefix);
 }
 if (fileExists(path.resolve(process.cwd(), targetfile))) {
-  if(global.verbose) {
+  if (global.verbose) {
     console.log(warn(messages.targetexists));
   }
 }
